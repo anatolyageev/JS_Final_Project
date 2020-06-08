@@ -1,0 +1,12 @@
+[
+    {
+        "text": "Read new book",
+        "isDone": false,
+        "id": 0
+    },
+    {
+        "text": "Read patterns",
+        "isDone": false,
+        "id": 1
+    }
+]
