@@ -37,7 +37,6 @@ export default class View {
                 </td>
             </tr>`
         }).join('');
-
     }
 
     getNewTodo() {
@@ -46,5 +45,4 @@ export default class View {
         text.value = '';
         return resalt;
     }
-
 }
