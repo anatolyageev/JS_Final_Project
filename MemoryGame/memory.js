@@ -8,11 +8,14 @@ let counter = document.querySelector(".moves");
 let second = 0, minute = 0, hour = 0;
 let timer = document.querySelector(".timer");
 let interval;
-const stars = document.querySelectorAll(".fa-star");
-cards.forEach(card => card.addEventListener('click', flipCard));
+let matchedCard = document.getElementsByClassName("match");
+let stars = document.querySelectorAll(".fa-star");
 let starsList = document.querySelectorAll(".stars li");
-document.querySelector('.fa-repeat').addEventListener('click', startGame);
+let closeicon = document.querySelector(".close");
+let modal = document.getElementById("popup1")
 
+document.querySelector('.fa-repeat').addEventListener('click', startGame);
+document.getElementById('play-again').addEventListener('click', playAgain);
 document.body.onload = startGame();
 
 function flipCard() {
@@ -44,6 +47,8 @@ function checkForMatch() {
 function disableCards() {
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
+    firstCard.classList.add("match");
+    secondCard.classList.add("match");
     resetBoard();
 }
 
@@ -70,8 +75,9 @@ function shuffle() {
 
 function resetFlip() {
     cards.forEach(card => {
-        card.classList.remove('flip');
+        card.classList.remove('flip', 'match');
         card.addEventListener('click', flipCard);
+        card.addEventListener("click", congratulations);
     })
 }
 
@@ -118,7 +124,10 @@ function startTimer() {
 function moveCounter() {
     moves++;
     counter.innerHTML = moves;
-    //start timer on first click
+    launchTimer();
+}
+
+function launchTimer() {
     if (moves == 1) {
         second = 0;
         minute = 0;
@@ -134,4 +143,31 @@ function ratingSet() {
     else if (moves > 16) {
         stars[1].style.visibility = "collapse";
     }
+}
+
+function congratulations() {
+    if (matchedCard.length == 16) {
+        clearInterval(interval);
+        let finalTime = timer.innerHTML;
+        let starRating = document.querySelector(".stars").innerHTML;
+
+        modal.classList.add("show");
+        document.getElementById("finalMove").innerHTML = moves;
+        document.getElementById("starRating").innerHTML = starRating;
+        document.getElementById("totalTime").innerHTML = finalTime;
+
+        closeModal();
+    };
+}
+
+function closeModal() {
+    closeicon.addEventListener("click", function (e) {
+        modal.classList.remove("show");
+        startGame();
+    });
+}
+
+function playAgain() {
+    modal.classList.remove("show");
+    startGame();
 }
